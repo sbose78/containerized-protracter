@@ -63,10 +63,11 @@ RUN mkdir $WORKSPACE
 
 COPY . $WORKSPACE
 RUN chown -R ${PROJECT_USER_NAME}:${PROJECT_USER_NAME} $HOME/*
-
 USER ${PROJECT_USER_NAME}
 WORKDIR $WORKSPACE/
 
 VOLUME /dist
+
+RUN chmod +x ${WORKSPACE}/functional_tests.sh
 
 ENTRYPOINT ["/home/myproject/angular-project/docker-entrypoint.sh"]
