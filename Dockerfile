@@ -23,7 +23,7 @@ RUN set -ex \
 ENV NODE_VERSION 6.9.2
 
 RUN yum -y update && \
-    yum install -y bzip2 fontconfig tar java-1.8.0-openjdk nmap-ncat psmisc gtk3 git \
+    yum install -y gcc-c++ bzip2 fontconfig tar java-1.8.0-openjdk nmap-ncat psmisc gtk3 git \
       python-setuptools xorg-x11-xauth wget unzip which \
       xorg-x11-server-Xvfb xfonts-100dpi libXfont GConf2 \
       xorg-x11-fonts-75dpi xfonts-scalable xfonts-cyrillic \
@@ -71,6 +71,6 @@ WORKDIR $WORKSPACE/
 RUN chmod +x ${WORKSPACE}/functional_tests.sh
 
 ENV SERVER_PORT=4200
-
+RUN npm install
 
 ENTRYPOINT ["/bin/bash","/home/myproject/angular-project/docker-entrypoint.sh"]

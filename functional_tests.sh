@@ -3,8 +3,6 @@
 echo "Ensuring the port $SERVER_PORT is freed."
 fuser -k -n tcp $SERVER_PORT
 
-echo "Running npm install..."
-npm install
 npm start >> start.log 2>&1 &
 
 while ! (ncat -w 1 127.0.0.1 $SERVER_PORT </dev/null >/dev/null 2>&1); do sleep 1; done
