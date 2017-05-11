@@ -66,8 +66,11 @@ RUN chown -R ${PROJECT_USER_NAME}:${PROJECT_USER_NAME} $HOME/*
 USER ${PROJECT_USER_NAME}
 WORKDIR $WORKSPACE/
 
-VOLUME /dist
+#VOLUME /dist
 
 RUN chmod +x ${WORKSPACE}/functional_tests.sh
 
-ENTRYPOINT ["/home/myproject/angular-project/docker-entrypoint.sh"]
+ENV SERVER_PORT=4200
+
+
+ENTRYPOINT ["/bin/bash","/home/myproject/angular-project/docker-entrypoint.sh"]
