@@ -1,44 +1,44 @@
 # Getting Started
 
-Super simple Angular app with 1 module and 2 routes 
+Super simple Angular app with 1 module and 2 routes , with support for running protractor tests inside a CentOS 7 container.
+Please refer to the readme of the primary project https://github.com/johnpapa/angular-tour-of-heroes
 
-## Get the Code
+## Build the image
 ```
-git clone https://github.com/johnpapa/angular-tour-of-heroes.git toh
-cd toh
-npm i
-```
-
-### Just in Time (JiT) Compilation
-
-Runs the TypeScript compiler and launches the app
-
-```
-npm start
+docker build -t heroes-builder -f Dockerfile .
 ```
 
-### Ahead of Time (AoT) Compilation 
+## Start the container
 
-Runs the Angular AoT compiler, rollup, uglify for an optimized bundle, then launches the app
-
-```
-npm run start-aot
-```
-
-### AoT + gzip 
-
-Runs AoT plus gzips and launches the app 
+Runs the container using the image built in the previous step. The image contains Centos7 + Angular dependencies + Protractor dependencies
 
 ```
-gulp copy-aot-gzip
-npm run aot
-npm run rollup
-http-server
+docker run --detach=true --name=heroes-builder  --user=root --cap-add=SYS_ADMIN -t -v $(pwd)/dist:/dist:Z heroes-builder
 ```
 
-Notes:
-- Use your favorite server in place of `http-server`
-- This could be scripted, obviously
-- `lite-server` does not launch gzipped files by default.
+## Execute protractor tests
+```
+docker exec heroes-builder ./functional_tests.sh
+```
 
+## How to use this Dockerfile with other projects.
 
+- Drop the following files into your project directory
+  - `Dockerfile`
+  - `google-chrome.repo`
+  - `gpg/`
+
+- Update your `protractor.conf.js` 
+  ```
+    capabilities: {
+      'browserName': 'chrome',
+      'chromeOptions': {
+        'args': [ '--no-sandbox']
+      }   
+    }
+    directConnect: false, 
+  ```
+  
+ - Build the image 
+ - Run the container
+ - Execute the tests.
