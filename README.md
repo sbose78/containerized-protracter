@@ -20,3 +20,25 @@ docker run --detach=true --name=heroes-builder  --user=root --cap-add=SYS_ADMIN 
 ```
 docker exec heroes-builder ./functional_tests.sh
 ```
+
+## How to use this Dockerfile with other projects.
+
+- Drop the following files into your project directory
+  - `Dockerfile`
+  - `google-chrome.repo`
+  - `gpg/`
+
+- Update your `protractor.conf.js` 
+  ```
+    capabilities: {
+      'browserName': 'chrome',
+      'chromeOptions': {
+        'args': [ '--no-sandbox']
+      }   
+    }
+    directConnect: false, 
+  ```
+  
+ - Build the image 
+ - Run the container
+ - Execute the tests.
